@@ -5,7 +5,30 @@ module Music
     end
 
     def lyrics
-      @raw_text.split("\n").select { |l| l =~ /[h-ln-w]/i }.join("\n")
+      lines = @raw_text.split("\n")
+      lyrics = []
+      lines.each do |line|
+        if line =~ /^[\s]*$/
+          lyrics << :empty
+        elsif line =~ /([h-ln-w,\!])/i
+          lyrics << line.strip
+        end
+      end
+
+      output = ""
+      
+      lyrics.each_with_index do |line, index|
+        if line == :empty
+          if lyrics[index - 1] == :empty || index == 0
+            next
+          else
+            output << "\n"
+          end
+        else
+          output << line.gsub(/[\s]+/, " ") + "\n"
+        end
+      end
+      output
     end
     
     private

@@ -30,7 +30,6 @@ And you threw out all my devils to make room for monumental love
 
 Could it be that you, you are the one? (x2)
 
-
 No I never felt the sun warm my heart in the way you do
 No I never felt the rain fill my tears with joy like you do
 No I never felt the earth fluster the butterflies like you do
