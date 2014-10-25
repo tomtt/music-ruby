@@ -62,13 +62,35 @@ describe Music::ChordlineParser do
       it { is_expected.to accept_chord('Gb') }
       it { is_expected.to accept_chord('G#') }
       it { is_expected.to accept_chord('D7') }
+      it { is_expected.to accept_chord('Bb6') }
+      it { is_expected.to accept_chord('F#m') }
+      it { is_expected.to accept_chord('C/G') }
+      it { is_expected.to accept_chord('Cm/G') }
+      it { is_expected.to accept_chord('Bb(Dbass)') }
+      it { is_expected.to accept_chord('D0') }
+      it { is_expected.to accept_chord('C#o') }
+      it { is_expected.to accept_chord('C#dim') }
+      it { is_expected.to accept_chord('Eb/Bb') }
+      it { is_expected.to accept_chord('B+') }
+      it { is_expected.to accept_chord('Baug') }
+      it { is_expected.to accept_chord('C7-9') }
+      it { is_expected.to accept_chord('Bb11') }
+      it { is_expected.to accept_chord('no chords') }
+      it { is_expected.to accept_chord('No Chords') }
+      it { is_expected.to accept_chord('No chords') }
+      it { is_expected.to accept_chord('N/C') }
+      it { is_expected.to accept_chord('n/c') }
+      it { is_expected.to accept_chord('D(X)') }
+      it { is_expected.to accept_chord('D(10th fret)') }
       
       it { is_expected.to reject_chord('a') }
       it { is_expected.to reject_chord('g') }
       it { is_expected.to reject_chord('H') }
       it { is_expected.to reject_chord('G#b') }
       it { is_expected.to reject_chord('Gb#') }
-      it { is_expected.to reject_chord('D0') }
+      it { is_expected.to reject_chord('Fm#') }
+      it { is_expected.to reject_chord('C/g') }
+      it { is_expected.to reject_chord('C/Gm') }
     end
   end
 end
