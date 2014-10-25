@@ -17,7 +17,7 @@ EOT
     context "for multiple lines where lyrics only contain chord characters" do
       let(:raw_text) { <<-EOT }
 G             C
-  Am a bed, a bed
+  Am a bed a bed
 
 
 
@@ -27,7 +27,7 @@ EOT
 
       it "has an empty line in the lyrics, ignoring trailing whitespace" do
         expected_lyrics = <<-EOT
-Am a bed, a bed
+Am a bed a bed
 
 Fa fa fa a bed!
 EOT

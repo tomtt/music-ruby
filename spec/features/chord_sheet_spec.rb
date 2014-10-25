@@ -1,11 +1,10 @@
 require 'feature_spec_helper'
 
-# feature "Reading a chord sheet" do
-  describe "the classic" do
-    it "can filter out only the lyrics of a chord sheet" do
-      raw_text = File.read(Music.root.join('spec', 'examples', 'chord_sheets', 'the_classic.txt'))
-      chord_sheet = Music::ChordSheet.parse(raw_text)
-      expect(chord_sheet.lyrics).to eq <<-EOT
+describe "the classic" do
+  it "can filter out only the lyrics of a chord sheet" do
+    raw_text = File.read(Music.root.join('spec', 'examples', 'chord_sheets', 'the_classic.txt'))
+    chord_sheet = Music::ChordSheet.parse(raw_text)
+    expect(chord_sheet.lyrics).to eq <<-EOT
 The Classic - Joan as Policewoman
 
 I am home in your arms and I feel like this is living
@@ -43,6 +42,5 @@ Could it be that you, you are the one? (x3)
 
 See ya lay yes as I see ya lay yes as I see ya lay yes as I see you lay yes as I (x2)
 EOT
-    end
   end
-# end
+end

@@ -10,7 +10,7 @@ module Music
       lines.each do |line|
         if line =~ /^[\s]*$/
           lyrics << :empty
-        elsif line =~ /([h-ln-w,\!])/i
+        elsif ChordlineParser.new(line).chords.empty?
           lyrics << line.strip
         end
       end
