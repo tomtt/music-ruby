@@ -1,13 +1,15 @@
 module Music
   class ChordlineParser
 
-    ACCIDENTAL_REGEXP = '[b#]?'
-    NOTE_REGEXP = "[A-G]#{ACCIDENTAL_REGEXP}"
-    MODE_REGEXP = '(?:[0-9][0-3]?(?:-[0-9])?|o|dim|aug|\+)?'
+    ACCIDENTAL_REGEXP = '[b#]'
+    NOTE_REGEXP = "[A-G]#{ACCIDENTAL_REGEXP}?"
+    MODE_REGEXP = "(?:major|minor|maj|min|m)?"
+    MODIFY_REGEXP = "(?:o|dim|aug|\\+)?(?:[0-9][0-3]?(?:-[0-9])?)?(?:sus[24]?)?(?:#{ACCIDENTAL_REGEXP}[1-9][0-3]?)?"
+    
     BASSNOTE_REGEXP = "(?:\/#{NOTE_REGEXP})?"
     COMMENT_REGEXP = '(?:\([^\)]*\))?'
     NOCHORD_REGEXP = '(?i:n\/c)|(?i:no chords)'
-    CHORD_REGEXP = /(?:#{NOTE_REGEXP}m?#{MODE_REGEXP}#{BASSNOTE_REGEXP}#{COMMENT_REGEXP})|#{NOCHORD_REGEXP}/
+    CHORD_REGEXP = /(?:#{NOTE_REGEXP}#{MODE_REGEXP}#{MODIFY_REGEXP}#{BASSNOTE_REGEXP}#{COMMENT_REGEXP})|#{NOCHORD_REGEXP}/
     EMPTY_REGEXP = /\s+/
     
     def initialize(line)

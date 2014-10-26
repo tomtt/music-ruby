@@ -2,16 +2,32 @@ require 'spec_helper'
 
 describe Music::ChordlineParser do
   RSpec::Matchers.define :accept_chord do |chord|
+    parsed_chord = nil
+    
     match do |parser|
       parsed_chord = parser.new(chord).chords.first
       !parsed_chord.nil? && parsed_chord[:name] == chord
     end
+
+    failure_message do
+      if parsed_chord.nil?
+        "expected Music::ChordlineParser to accept chord \"#{chord}\, no chord found"
+      else
+        "expected Music::ChordlineParser to accept chord \"#{chord}\, found #{parsed_chord[:name]} instead"
+      end
+    end
   end
 
   RSpec::Matchers.define :reject_chord do |chord|
+    parsed_chord = nil
+
     match do |parser|
       parsed_chord = parser.new(chord).chords.first
       parsed_chord.nil?
+    end
+
+    failure_message do
+      "expected Music::ChordlineParser to accept chord \"#{chord}\, but found #{parsed_chord[:name]}"
     end
   end
 
@@ -48,6 +64,14 @@ describe Music::ChordlineParser do
       expect(chord[:position]).to eq 2
       expect(chord[:name]).to eq "Am"
     end
+
+    it "handles complex chords appear after each other without a whitespace seperation" do
+      line = " C#7Ab5"
+      chords = Music::ChordlineParser.new(line).chords
+      expect(chords.size).to eq 2
+      expect(chords.map { |c| c[:position] }).to eq [1, 4]
+      expect(chords.map { |c| c[:name] }).to eq ["C#7", "Ab5"]
+    end
     
     describe "being passed a single chord" do
       subject { Music::ChordlineParser }
@@ -75,6 +99,20 @@ describe Music::ChordlineParser do
       it { is_expected.to accept_chord('Baug') }
       it { is_expected.to accept_chord('C7-9') }
       it { is_expected.to accept_chord('Bb11') }
+      it { is_expected.to accept_chord('Amaj7') }
+      it { is_expected.to accept_chord('Emajor') }
+      it { is_expected.to accept_chord('Eminor') }
+      it { is_expected.to accept_chord('Emin') }
+      it { is_expected.to accept_chord('Gbo7') }
+      it { is_expected.to accept_chord('Gbdim7') }
+      it { is_expected.to accept_chord('C#7b5') }
+      it { is_expected.to accept_chord('Emin') }
+      it { is_expected.to accept_chord('Esus2') }
+      it { is_expected.to accept_chord('Esus4') }
+      it { is_expected.to accept_chord('E7sus2') }
+      it { is_expected.to accept_chord('E7sus4') }
+      it { is_expected.to accept_chord('F#m7') }
+
       it { is_expected.to accept_chord('no chords') }
       it { is_expected.to accept_chord('No Chords') }
       it { is_expected.to accept_chord('No chords') }
@@ -82,7 +120,7 @@ describe Music::ChordlineParser do
       it { is_expected.to accept_chord('n/c') }
       it { is_expected.to accept_chord('D(X)') }
       it { is_expected.to accept_chord('D(10th fret)') }
-      
+
       it { is_expected.to reject_chord('a') }
       it { is_expected.to reject_chord('g') }
       it { is_expected.to reject_chord('H') }
