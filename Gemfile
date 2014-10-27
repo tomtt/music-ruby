@@ -1,9 +1,5 @@
 source 'https://rubygems.org'
 
-ruby '2.1.3'
+gemspec
 
-group :development, :test do
-  gem 'rspec'
-  gem 'pry'
-  gem 'pry-byebug'
-end
+ruby '2.1.3'
