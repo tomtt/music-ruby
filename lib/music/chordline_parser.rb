@@ -1,17 +1,16 @@
 module Music
   class ChordlineParser
 
-    ACCIDENTAL_REGEXP = '[b#]'
-    NOTE_REGEXP = "[A-G]#{ACCIDENTAL_REGEXP}?"
-    MODE_REGEXP = "(?:major|minor|maj|min|m)?"
-    MODIFY_REGEXP = "(?:o|dim|aug|\\+)?(?:[0-9][0-3]?(?:-[0-9])?)?(?:sus[24]?)?(?:#{ACCIDENTAL_REGEXP}[1-9][0-3]?)?"
-    
-    BASSNOTE_REGEXP = "(?:\/#{NOTE_REGEXP})?"
-    COMMENT_REGEXP = '(?:\([^\)]*\))?'
-    NOCHORD_REGEXP = '(?i:n\/c)|(?i:no chords)'
-    CHORD_REGEXP = /(?:#{NOTE_REGEXP}#{MODE_REGEXP}#{MODIFY_REGEXP}#{BASSNOTE_REGEXP}#{COMMENT_REGEXP})|#{NOCHORD_REGEXP}/
-    EMPTY_REGEXP = /\s+/
-    
+    @@match_accidental = '[b#]'
+    @@match_note = "[A-G]#{@@match_accidental}?"
+    @@match_mode = '(?:major|minor|maj|min|m|o|dim|aug|\+)?'
+    @@match_modify = "(?:[0-9][0-3]?(?:-[0-9])?)?(?:sus[24]?)?(?:#{@@match_accidental}[1-9][0-3]?)?"
+    @@match_bassnote = "(?:\/#{@@match_note})?"
+    @@match_comment = '(?:\([^\)]*\))?'
+    @@match_nochord = '(?i:n\/c)|(?i:no chords)'
+    @@match_chord = /(?:#{@@match_note}#{@@match_mode}#{@@match_modify}#{@@match_bassnote}#{@@match_comment})|#{@@match_nochord}/
+    @@match_empty = /\s+/
+
     def initialize(line)
       @line = StringScanner.new line
     end
@@ -24,16 +23,16 @@ module Music
 
     def parse_chords
       @chords = []
-      @line.skip EMPTY_REGEXP
+      @line.skip @@match_empty
       until(@line.eos?)
         current_pos = @line.charpos
-        chord = @line.scan CHORD_REGEXP
+        chord = @line.scan @@match_chord
         if chord
           @chords << { position: current_pos, name: chord }
         else
           return []
         end
-        @line.skip EMPTY_REGEXP
+        @line.skip @@match_empty
       end
       return @chords
     end
