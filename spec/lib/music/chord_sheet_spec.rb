@@ -35,4 +35,10 @@ EOT
       end
     end
   end
+
+  describe ".lines" do
+    it "is an empty list if there are no lines" do
+      expect(Music::ChordSheet.parse("").lines).to be_empty
+    end
+  end
 end

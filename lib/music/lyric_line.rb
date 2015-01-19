@@ -2,12 +2,14 @@ module Music
   class LyricLine
     def lyricline=(lyricline)
       @lyricline = lyricline
+      if @chordline && @lyricline.size < @chordline.size
+        @lyricline += " " * (@chordline.size - @lyricline.size)
+      end
     end
 
     def chordline=(chordline)
-      if @lyricline.size < chordline.size
-        @lyricline += " " * (chordline.size - @lyricline.size)
-      end
+      @chordline = chordline
+      raise "assign chordline before lyricline" if @lyricline
       @chords = Music::ChordlineParser.new(chordline)
     end
 
@@ -25,11 +27,12 @@ module Music
       else
         stop_before = -1
       end
-      
+
       @lyricline[start..stop_before]
     end
     
     def segments
+      self.lyricline = "" unless @lyricline
       chord_list = chords.dup
       if chord_list.empty?
         [{lyric: @lyricline, chord: nil}]

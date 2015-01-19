@@ -19,6 +19,10 @@ module Music
       @chords ||= parse_chords
     end
 
+    def self.is_chord_line?(line)
+      !(new(line).chords.empty?)
+    end
+    
     private
 
     def parse_chords

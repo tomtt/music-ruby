@@ -30,6 +30,33 @@ module Music
       end
       output
     end
+
+    def lines
+      state = :default
+      raw_lines = @raw_text.split("\n")
+      lines = []
+      current_lyric_line = nil
+      raw_lines.each do |raw_line|
+        if Music::ChordlineParser.is_chord_line?(raw_line)
+          if current_lyric_line
+            lines << current_lyric_line
+          end
+          current_lyric_line = Music::LyricLine.new
+          current_lyric_line.chordline = raw_line
+        else # No chords on current line
+          if !current_lyric_line
+            current_lyric_line = Music::LyricLine.new
+          end
+          current_lyric_line.lyricline = raw_line
+          lines << current_lyric_line
+          current_lyric_line = nil
+        end
+      end
+      if current_lyric_line
+        lines << current_lyric_line
+      end
+      lines
+    end
     
     private
 
