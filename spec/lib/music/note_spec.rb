@@ -11,19 +11,19 @@ describe Music::Note do
 
   describe "<=>" do
     it "orders E5 after E4" do
-      expect(Music::Note.new("E", 5) > Music::Note.new("E", 4)).to be_truthy
+      expect(Music::Note.new("E", 5)).to be > Music::Note.new("E", 4)
     end
 
     it "orders E5 before E6" do
-      expect(Music::Note.new("E", 5) < Music::Note.new("E", 6)).to be_truthy
+      expect(Music::Note.new("E", 5)).to be < Music::Note.new("E", 6)
     end
 
     it "orders D4 before E4" do
-      expect(Music::Note.new("D", 4) < Music::Note.new("E", 4)).to be_truthy
+      expect(Music::Note.new("D", 4)).to be < Music::Note.new("E", 4)
     end
 
     it "orders C4 before A4" do
-      expect(Music::Note.new("C", 4) < Music::Note.new("A", 4)).to be_truthy
+      expect(Music::Note.new("C", 4)).to be < Music::Note.new("A", 4)
     end
 
     it "orders identical notes to be identical independent of accidental" do
