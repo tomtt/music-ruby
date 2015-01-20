@@ -7,73 +7,73 @@ module Music
     class InvalidNoteError < StandardError; end
     class InvalidAccidentalError < StandardError; end
 
-    NAMES = {
-      "A"  =>  0,
-      "A#" =>  1,
-      "Bb" =>  1,
-      "B"  =>  2,
-      "C"  =>  3,
-      "C#" =>  4,
-      "Db" =>  4,
-      "D"  =>  5,
-      "D#" =>  6,
-      "Eb" =>  6,
-      "E"  =>  7,
-      "F"  =>  8,
-      "F#" =>  9,
-      "Gb" =>  9,
-      "G"  => 10,
-      "G#" => 11,
-      "Ab" => 11
+    NOTE_NAME_DISTANCES_FROM_C = {
+      "A" => 9,
+      "A#" => 10,
+      "Bb" => 10,
+      "B" => 11,
+      "C" => 0,
+      "C#" => 1,
+      "Db" => 1,
+      "D" => 2,
+      "D#" => 3,
+      "Eb" => 3,
+      "E" => 4,
+      "F" => 5,
+      "F#" => 6,
+      "Gb" => 6,
+      "G" => 7,
+      "G#" => 8,
+      "Ab" => 8
     }
-
-    NAMES_FOR_VALUES = {
+    
+    NAMES_FOR_DISTANCE_FROM_C = {
       sharp: {
-         0 => "A",
-         1 => "A#",
-         2 => "B",
-         3 => "C",
-         4 => "C#",
-         5 => "D",
-         6 => "D#",
-         7 => "E",
-         8 => "F",
-         9 => "F#",
-        10 => "G",
-        11 => "G#"
+        0 => "C",
+        1 => "C#",
+        2 => "D",
+        3 => "D#",
+        4 => "E",
+        5 => "F",
+        6 => "F#",
+        7 => "G",
+        8 => "G#",
+        9 => "A",
+        10 => "A#",
+        11 => "B"
       },
       flat: {
-         0 => "A",
-         1 => "Bb",
-         2 => "B",
-         3 => "C",
-         4 => "Db",
-         5 => "D",
-         6 => "Eb",
-         7 => "E",
-         8 => "F",
-         9 => "Gb",
-        10 => "G",
-        11 => "Ab"
+        0 => "C",
+        1 => "Db",
+        2 => "D",
+        3 => "Eb",
+        4 => "E",
+        5 => "F",
+        6 => "Gb",
+        7 => "G",
+        8 => "Ab",
+        9 => "A",
+        10 => "Bb",
+        11 => "B"
       }
     }
+
     def initialize(name, octave)
-      if NAMES.has_key?(name)
+      if NOTE_NAME_DISTANCES_FROM_C.has_key?(name)
         @name = name
       else
         raise InvalidNoteError, "Unknown note: \"#{name}\""
       end
-      @distance_from_a = NAMES[@name]
+      @distance_from_c = NOTE_NAME_DISTANCES_FROM_C[@name]
       @octave = octave
     end
 
+    def octave_note_pair
+      [octave, @distance_from_c]
+    end
+    
     def <=>(other)
-      octave_compare = octave <=> other.octave
-      if octave_compare == 0
-        distance_from_c <=> other.send(:distance_from_c)
-      else
-        octave_compare
-      end
+      octave_note_pair <=> other.octave_note_pair
     end
     
     def full_name(accidental = nil)
@@ -82,10 +82,6 @@ module Music
     
     private
 
-    def distance_from_c
-      (@distance_from_a - 3) % 12
-    end
-    
     def name_for_accidental(accidental)
       if accidental.to_s == "sharp"
         sharp_name
@@ -99,11 +95,11 @@ module Music
     end
 
     def sharp_name
-      NAMES_FOR_VALUES[:sharp][@distance_from_a]
+      NAMES_FOR_DISTANCE_FROM_C[:sharp][@distance_from_c]
     end
     
     def flat_name
-      NAMES_FOR_VALUES[:flat][@distance_from_a]
+      NAMES_FOR_DISTANCE_FROM_C[:flat][@distance_from_c]
     end
   end
 end
