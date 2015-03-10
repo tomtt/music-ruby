@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.homepage    = ""
   s.license     = 'MIT'
   s.add_development_dependency 'rspec'
+  s.add_development_dependency 'rspec-its'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'pry-byebug'
 end
