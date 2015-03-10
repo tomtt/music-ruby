@@ -138,4 +138,18 @@ describe Music::Note do
       end
     end
   end
+
+  describe "#distance_from_c0" do
+    it "is 0 for c0" do
+      expect(Music::Note.new("C", 0).distance_from_c0).to eq 0
+    end
+
+    it "is 2 for d0" do
+      expect(Music::Note.new("D", 0).distance_from_c0).to eq 2
+    end
+
+    it "is 12 for c1" do
+      expect(Music::Note.new("C", 1).distance_from_c0).to eq 12
+    end
+  end
 end

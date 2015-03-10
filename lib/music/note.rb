@@ -79,6 +79,10 @@ module Music
     def full_name(accidental = nil)
       "#{name_for_accidental(accidental)}#{@octave}"
     end
+
+    def distance_from_c0
+      @distance_from_c + 12 * octave
+    end
     
     private
 
