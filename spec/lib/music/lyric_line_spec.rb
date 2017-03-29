@@ -9,7 +9,7 @@ describe Music::LyricLine do
                ll.chordline = "G      D    "
       end).to raise_error
     end
-    
+
     it "has only one segment for a lyric with no chords" do
       ll = Music::LyricLine.new
       ll.lyricline = "Some lyric"
@@ -31,7 +31,7 @@ describe Music::LyricLine do
                                  {lyric: "Fall ", chord: "C"},
                                  {lyric: "Down", chord: "D"}]
     end
-    
+
     it "keeps multiple spaces in a lyric" do
       ll = Music::LyricLine.new
       ll.chordline = "G               C"
@@ -46,15 +46,16 @@ describe Music::LyricLine do
       ll.lyricline = "Good boy"
       expect(ll.segments).to eq [{lyric: "Good ", chord: nil},
                                  {lyric: "boy", chord: "F#"}]
-      
+
     end
-    
+
     it "inserts emtpy lyric if chord is between words" do
       ll = Music::LyricLine.new
       ll.chordline = "     G     "
       ll.lyricline = "Bad      Cat  "
       expect(ll.segments).to eq [{lyric: "Bad  ", chord: nil},
-                                 {lyric: "    Cat  ", chord: "G"}]
+                                 {lyric: "    ", chord: "G"},
+                                 {lyric: "Cat  ", chord: nil}]
     end
 
     it "has empty lyric when chord line is longer than lyric" do

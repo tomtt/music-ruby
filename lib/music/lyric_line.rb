@@ -30,7 +30,26 @@ module Music
 
       @lyricline[start..stop_before]
     end
-    
+
+    def add_segments(segments, chord, lyric)
+      lyrics_split_in_words = lyric.split(/\b/)
+      if lyrics_split_in_words[0].blank? && lyrics_split_in_words.size > 1
+        segments << {
+          lyric: lyrics_split_in_words.shift,
+          chord: chord
+        }
+        segments << {
+          lyric: lyrics_split_in_words.join(''),
+          chord: nil
+        }
+      else
+        segments << {
+          lyric: lyric,
+          chord: chord
+        }
+      end
+    end
+
     def segments
       self.lyricline = "" unless @lyricline
       chord_list = chords.dup
@@ -47,16 +66,10 @@ module Music
         end
 
         chord_list.each do |chord|
-          segments << {
-            lyric: lyric_segment(current_chord[:position], chord[:position]),
-            chord: current_chord[:name]
-          }
+          add_segments(segments, current_chord[:name], lyric_segment(current_chord[:position], chord[:position]))
           current_chord = chord
         end
-        segments << {
-          lyric: lyric_segment(current_chord[:position]),
-          chord: current_chord[:name]
-        }
+        add_segments(segments, current_chord[:name], lyric_segment(current_chord[:position]))
         segments
       end
     end
