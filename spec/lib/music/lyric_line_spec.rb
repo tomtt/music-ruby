@@ -58,6 +58,18 @@ describe Music::LyricLine do
                                  {lyric: "Cat  ", chord: nil}]
     end
 
+    it "does not split in a new segment if lyrics and chord start at the beginning" do
+      ll = Music::LyricLine.new
+      ll.chordline = "Bm      A         G A    Bm"
+      ll.lyricline = "Om namo Bhagavate Vasude vaya x2"
+      expect(ll.segments).to eq [{lyric: "Om namo ", chord: "Bm"},
+                                 {lyric: "Bhagavate ", chord: "A"},
+                                 {lyric: "Va", chord: "G"},
+                                 {lyric: "sude ", chord: "A"},
+                                 {lyric: "vaya x2", chord: "Bm"}
+                               ]
+    end
+
     it "has empty lyric when chord line is longer than lyric" do
       ll = Music::LyricLine.new
       ll.chordline = "       Dbmaj7"
