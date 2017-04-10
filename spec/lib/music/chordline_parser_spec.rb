@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Music::ChordlineParser do
   RSpec::Matchers.define :accept_chord do |chord|
     parsed_chord = nil
-    
+
     match do |parser|
       parsed_chord = parser.new(chord).chords.first
       !parsed_chord.nil? && parsed_chord[:name] == chord
@@ -72,10 +72,10 @@ describe Music::ChordlineParser do
       expect(chords.map { |c| c[:position] }).to eq [1, 4]
       expect(chords.map { |c| c[:name] }).to eq ["C#7", "Ab5"]
     end
-    
+
     describe "being passed a single chord" do
       subject { Music::ChordlineParser }
-      
+
       it { is_expected.to accept_chord('A') }
       it { is_expected.to accept_chord('B') }
       it { is_expected.to accept_chord('C') }
@@ -118,6 +118,10 @@ describe Music::ChordlineParser do
       it { is_expected.to accept_chord('No chords') }
       it { is_expected.to accept_chord('N/C') }
       it { is_expected.to accept_chord('n/c') }
+      it { is_expected.to accept_chord('nc') }
+      it { is_expected.to accept_chord('n.c.') }
+      it { is_expected.to accept_chord('NC') }
+      it { is_expected.to accept_chord('N.C.') }
       it { is_expected.to accept_chord('D(X)') }
       it { is_expected.to accept_chord('D(10th fret)') }
 

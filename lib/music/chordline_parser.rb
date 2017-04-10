@@ -7,7 +7,7 @@ module Music
     @@match_modify = "(?:[0-9][0-3]?(?:-[0-9])?)?(?:sus[24]?)?(?:#{@@match_accidental}[1-9][0-3]?)?"
     @@match_bassnote = "(?:\/#{@@match_note})?"
     @@match_comment = '(?:\([^\)]*\))?'
-    @@match_nochord = '(?i:n\/c)|(?i:no chords)'
+    @@match_nochord = '(?i:n\/c)|(?i:no chords)|(?i:n\.?c\.?)'
     @@match_chord = /(?:#{@@match_note}#{@@match_mode}#{@@match_modify}#{@@match_bassnote}#{@@match_comment})|#{@@match_nochord}/
     @@match_empty = /\s+/
 
@@ -22,7 +22,7 @@ module Music
     def self.is_chord_line?(line)
       !(new(line).chords.empty?)
     end
-    
+
     private
 
     def parse_chords
