@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    music-ruby (0.0.1)
+    music-ruby (0.0.2)
 
 GEM
   remote: https://rubygems.org/
@@ -56,4 +56,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.12.5
+   1.14.6
