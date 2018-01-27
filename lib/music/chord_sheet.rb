@@ -1,5 +1,7 @@
 module Music
   class ChordSheet
+    attr_reader :raw_text
+
     def self.parse(raw_text)
       new(raw_text)
     end
@@ -16,7 +18,7 @@ module Music
       end
 
       output = ""
-      
+
       lyrics.each_with_index do |line, index|
         if line == :empty
           if lyrics[index - 1] == :empty || index == 0
@@ -57,7 +59,7 @@ module Music
       end
       lines
     end
-    
+
     private
 
     def initialize(raw_text)
